@@ -10,6 +10,8 @@ dependencies = [
     "fastapi",
     "uvicorn[standard]",
     "pydantic-settings",
+    "databases[aiosqlite]",
+    "alembic",
 ]
 
 [tool.poetry]
