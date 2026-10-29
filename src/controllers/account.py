@@ -1,6 +1,6 @@
 from fastapi import APIRouter, status
 
-from src.schemas.account import AccountIn, AccountOut
+from src.schemas.account import AccountCancelIn, AccountIn, AccountOut
 from src.services.account import AccountService
 
 account_router = APIRouter(prefix="/accounts")
@@ -15,3 +15,7 @@ async def read_accounts(limit: int, skip: int = 0):
 @account_router.post("/", status_code=status.HTTP_201_CREATED, response_model=AccountOut)
 async def create_account(account: AccountIn):
     return await account_service.create(account)
+
+@account_router.patch("/{account_id}/cancel", response_model=AccountOut)
+async def cancel_account(account_id: int, data: AccountCancelIn):
+    return await account_service.cancel(account_id=account_id, data=data)

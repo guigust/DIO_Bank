@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from pydantic import BaseModel, NonNegativeFloat
+from pydantic import BaseModel, Field, NonNegativeFloat
 
 from src.models.account import CancellationReason
 
@@ -18,3 +18,8 @@ class AccountOut(BaseModel):
     cancellation: CancellationReason | None = None
     notes_cancellation: str | None = None
     cancelled_at: datetime | None = None
+
+
+class AccountCancelIn(BaseModel):
+    cancellation: CancellationReason
+    notes_cancellation: str = Field(min_length=1, max_length=150)
