@@ -5,6 +5,7 @@ from fastapi.responses import JSONResponse
 
 from src.config import settings
 from src.controllers.account import account_router
+from src.controllers.transaction import transaction_router
 from src.database import database
 from src.exceptions import AccountInactiveError, AccountNotFoundError, BusinessError, InsufficientBalanceError
 
@@ -19,6 +20,7 @@ app = FastAPI(
     lifespan=lifespan,
 )
 app.include_router(account_router)
+app.include_router(transaction_router)
 
 print(settings.environment)
 
