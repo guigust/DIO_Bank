@@ -18,6 +18,26 @@ async def lifespan(app: FastAPI):
     await database.disconnect()
 
 app = FastAPI(
+    title="Dio Bank API - By: Guigust",
+    description=(
+        "API bancária assíncrona para cadastro de contas, autenticação JWT "
+        "e operações financeiras internas."
+    ),
+    version="0.1.0",
+    openapi_tags=[
+        {
+            "name": "Accounts",
+            "description": "Cadastro, consulta e cancelamento de contas.",
+        },
+        {
+            "name": "Authentication",
+            "description": "Autenticação e emissão de tokens JWT.",
+        },
+        {
+            "name": "Transactions",
+            "description": "Operações financeiras entre contas do banco.",
+        },
+    ],
     lifespan=lifespan,
 )
 app.include_router(account_router)
@@ -27,11 +47,11 @@ app.include_router(auth_router)
 print(settings.environment)
 
 
-# @app.get('/')
-# async def root():
-#     return {
-#         'message' : 'Hello World'
-#     }
+@app.get("/")
+async def root():
+    return {
+        "message": "Hello World",
+    }
 
 
 @app.exception_handler(AccountNotFoundError)
