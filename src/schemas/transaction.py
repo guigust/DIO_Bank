@@ -6,11 +6,29 @@ from src.models.transaction_types import TransactionType
 
 
 class TransactionIn(BaseModel):
+    model_config = ConfigDict(
+        json_schema_extra={
+            "examples": [{"account_id": 1, "amount": 100.0}],
+        }
+    )
+
     account_id: int
     amount: PositiveFloat
 
 
 class TransferIn(BaseModel):
+    model_config = ConfigDict(
+        json_schema_extra={
+            "examples": [
+                {
+                    "source_account_id": 1,
+                    "destination_account_id": 2,
+                    "amount": 50.0,
+                }
+            ],
+        }
+    )
+
     source_account_id: int
     destination_account_id: int
     amount: PositiveFloat

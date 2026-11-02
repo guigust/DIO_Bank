@@ -9,6 +9,7 @@ from src.controllers.auth import auth_router
 from src.controllers.transaction import transaction_router
 from src.database import database
 from src.exceptions import AccountInactiveError, AccountNotFoundError, BusinessError, InsufficientBalanceError
+from src.schemas.root import RootOut
 
 
 @asynccontextmanager
@@ -37,6 +38,10 @@ app = FastAPI(
             "name": "Transactions",
             "description": "Operações financeiras entre contas do banco.",
         },
+        {
+            "name": "System",
+            "description": "Endpoints técnicos para verificar a disponibilidade da API.",
+        },
     ],
     lifespan=lifespan,
 )
@@ -47,7 +52,13 @@ app.include_router(auth_router)
 print(settings.environment)
 
 
-@app.get("/")
+@app.get(
+    "/",
+    tags=["System"],
+    summary="Verificar disponibilidade da API",
+    description="Retorna uma mensagem simples para confirmar que a API está disponível.",
+    response_model=RootOut,
+)
 async def root():
     return {
         "message": "Hello World",
