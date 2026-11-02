@@ -10,6 +10,7 @@ class Settings(BaseSettings):
 
     database_url: str
     environment: str = "production"
+    jwt_secret_key: str
 
 
 settings = Settings() # type: ignore
