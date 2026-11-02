@@ -1,13 +1,18 @@
-from fastapi import APIRouter, status
+from fastapi import APIRouter, Depends, status
 
 from src.schemas.account import AccountCancelIn, AccountIn, AccountOut
+from src.security import login_required
 from src.services.account import AccountService
 
 account_router = APIRouter(prefix="/accounts")
 account_service = AccountService()
 
 
-@account_router.get("/", response_model=list[AccountOut])
+@account_router.get(
+    "/",
+    response_model=list[AccountOut],
+    dependencies=[Depends(login_required)],
+)
 async def read_accounts(limit: int, skip: int = 0):
     return await account_service.read_all(limit=limit, skip=skip)
 
@@ -16,6 +21,10 @@ async def read_accounts(limit: int, skip: int = 0):
 async def create_account(account: AccountIn):
     return await account_service.create(account)
 
-@account_router.patch("/{account_id}/cancel", response_model=AccountOut)
+@account_router.patch(
+    "/{account_id}/cancel",
+    response_model=AccountOut,
+    dependencies=[Depends(login_required)],
+)
 async def cancel_account(account_id: int, data: AccountCancelIn):
     return await account_service.cancel(account_id=account_id, data=data)

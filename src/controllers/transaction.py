@@ -1,9 +1,13 @@
-from fastapi import APIRouter, status
+from fastapi import APIRouter, Depends, status
 
 from src.schemas.transaction import TransactionIn, TransactionOut, TransferIn
+from src.security import login_required
 from src.services.transaction import TransactionService
 
-transaction_router = APIRouter(prefix="/transactions")
+transaction_router = APIRouter(
+    prefix="/transactions",
+    dependencies=[Depends(login_required)],
+)
 transaction_service = TransactionService()
 
 

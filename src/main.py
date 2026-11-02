@@ -5,6 +5,7 @@ from fastapi.responses import JSONResponse
 
 from src.config import settings
 from src.controllers.account import account_router
+from src.controllers.auth import auth_router
 from src.controllers.transaction import transaction_router
 from src.database import database
 from src.exceptions import AccountInactiveError, AccountNotFoundError, BusinessError, InsufficientBalanceError
@@ -21,15 +22,16 @@ app = FastAPI(
 )
 app.include_router(account_router)
 app.include_router(transaction_router)
+app.include_router(auth_router)
 
 print(settings.environment)
 
 
-@app.get('/')
-async def root():
-    return {
-        'message' : 'Hello World'
-    }
+# @app.get('/')
+# async def root():
+#     return {
+#         'message' : 'Hello World'
+#     }
 
 
 @app.exception_handler(AccountNotFoundError)

@@ -12,6 +12,7 @@ dependencies = [
     "pydantic-settings",
     "databases[aiosqlite]",
     "alembic",
+    "pyjwt (>=2.15.1,<3.0.0)",
 ]
 
 [tool.poetry]
