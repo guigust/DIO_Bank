@@ -1,11 +1,17 @@
 from datetime import datetime
 
-from pydantic import BaseModel, Field, NonNegativeFloat
+from pydantic import BaseModel, ConfigDict, Field, NonNegativeFloat
 
 from src.models.account import CancellationReason
 
 
 class AccountIn(BaseModel):
+    model_config = ConfigDict(
+        json_schema_extra={
+            "examples": [{"user_id": 123}],
+        }
+    )
+
     user_id: int
 
 
@@ -21,5 +27,16 @@ class AccountOut(BaseModel):
 
 
 class AccountCancelIn(BaseModel):
+    model_config = ConfigDict(
+        json_schema_extra={
+            "examples": [
+                {
+                    "cancellation": "request_holder",
+                    "notes_cancellation": "Solicitação do titular",
+                }
+            ],
+        }
+    )
+
     cancellation: CancellationReason
     notes_cancellation: str = Field(min_length=1, max_length=150)
